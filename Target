@@ -1,0 +1,131 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local Fling = Instance.new("ScreenGui")
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local Goto = Instance.new("TextButton")
+local Goto_2 = Instance.new("TextButton")
+local PlayerUser = Instance.new("TextBox")
+local Close = Instance.new("TextButton")
+
+--Properties:
+
+Fling.Name = "Fling"
+Fling.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Fling.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+ScrollingFrame.Parent = Fling
+ScrollingFrame.Active = true
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(66, 66, 66)
+ScrollingFrame.BorderSizePixel = 0
+ScrollingFrame.Position = UDim2.new(0.317023456, 0, 0.0901803672, 0)
+ScrollingFrame.Size = UDim2.new(0, 185, 0, 312)
+ScrollingFrame.Draggable = true
+
+Goto.Name = "Goto"
+Goto.Parent = ScrollingFrame
+Goto.BackgroundColor3 = Color3.fromRGB(125, 104, 43)
+Goto.Size = UDim2.new(0, 172, 0, 50)
+Goto.Font = Enum.Font.SourceSans
+Goto.Text = "Goto"
+Goto.TextColor3 = Color3.fromRGB(0, 0, 0)
+Goto.TextSize = 44.000
+
+Goto_2.Name = "Goto"
+Goto_2.Parent = ScrollingFrame
+Goto_2.BackgroundColor3 = Color3.fromRGB(125, 104, 43)
+Goto_2.Position = UDim2.new(0, 0, 0.0501001999, 0)
+Goto_2.Size = UDim2.new(0, 172, 0, 50)
+Goto_2.Font = Enum.Font.SourceSans
+Goto_2.Text = "Fling"
+Goto_2.TextColor3 = Color3.fromRGB(0, 0, 0)
+Goto_2.TextSize = 44.000
+
+PlayerUser.Name = "PlayerUser"
+PlayerUser.Parent = Fling
+PlayerUser.BackgroundColor3 = Color3.fromRGB(108, 108, 108)
+PlayerUser.Position = UDim2.new(0.317023456, 0, 0.715430856, 0)
+PlayerUser.Size = UDim2.new(0, 185, 0, 50)
+PlayerUser.Font = Enum.Font.SourceSans
+PlayerUser.Text = "PlayerUserHere"
+PlayerUser.TextColor3 = Color3.fromRGB(0, 0, 0)
+PlayerUser.TextSize = 30.000
+
+Close.Name = "Close"
+Close.Parent = Fling
+Close.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+Close.Position = UDim2.new(0.505606532, 0, 0.0901803598, 0)
+Close.Size = UDim2.new(0, 33, 0, 41)
+Close.Font = Enum.Font.SourceSans
+Close.Text = "X"
+Close.TextColor3 = Color3.fromRGB(0, 0, 0)
+Close.TextSize = 57.000
+
+-- Scripts:
+
+local function KKSSF_fake_script() -- Goto.LocalScript 
+	local script = Instance.new('LocalScript', Goto)
+
+	local plr = game:GetService('Players').LocalPlayer
+	local Username = script.Parent.PlayerUser.Text
+	local plr2 = game.Players:FindFirstChild(Username)
+	-----------------------------------------------------
+	plr.Character.HumanoidRootPart.CFrame = plr2.Character.HumanoidRootPart.CFrame * CFrame.new(0,4,0)
+	
+end
+coroutine.wrap(KKSSF_fake_script)()
+local function BVKO_fake_script() -- Goto_2.LocalScript 
+	local script = Instance.new('LocalScript', Goto_2)
+
+	local script = Instance.new('LocalScript', Kill)
+	
+	script.Parent.MouseButton1Click:Connect(function(Kill)
+	
+		local targetname = script.Parent.PlayerUser.Text
+	
+		local LocalPlayer = game:GetService("Players").LocalPlayer
+		local target = game:GetService("Players")[targetname]
+		local torsoname = "Torso"
+		if LocalPlayer.Character:FindFirstChild("Humanoid").RigType == Enum.HumanoidRigType.R15 then
+			torsoname = "UpperTorso"
+		end
+		if target.Character ~= nil then
+			local savepos = LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame
+			LocalPlayer.Character:FindFirstChild(torsoname).Anchored = true
+			local tool = Instance.new("Tool", LocalPlayer.Backpack)
+			local hat = LocalPlayer.Character:FindFirstChildOfClass("Accessory")
+			local hathandle = hat.Handle
+			hathandle.Parent = tool
+			hathandle.Massless = true
+			tool.GripPos = Vector3.new(0, 9e99, 0)
+			tool.Parent = LocalPlayer.Character
+			repeat wait() until LocalPlayer.Character:FindFirstChildOfClass("Tool") ~= nil
+			tool.Grip = CFrame.new(Vector3.new(0, 0, 0))
+			LocalPlayer.Character:FindFirstChild(torsoname).Anchored = false
+			repeat
+				LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = target.Character:FindFirstChild("HumanoidRootPart").CFrame
+				wait()
+			until target.Character == nil or target.Character:FindFirstChild("Humanoid").Health <= 0 or LocalPlayer.Character == nil or LocalPlayer.Character:FindFirstChild("Humanoid").Health <= 0 or (target.Character:FindFirstChild("HumanoidRootPart").Velocity.magnitude - target.Character:FindFirstChild("Humanoid").WalkSpeed) > (target.Character:FindFirstChild("Humanoid").WalkSpeed + 20)
+			LocalPlayer.Character:FindFirstChild("Humanoid"):UnequipTools()
+			hathandle.Parent = hat
+			hathandle.Massless = false
+			tool:Destroy()
+			LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = savepos
+		end
+	end)
+end
+coroutine.wrap(BVKO_fake_script)()
+local function HGOI_fake_script() -- Close.LocalScript 
+	local script = Instance.new('LocalScript', Close)
+
+	script.Parent.MouseButton1Click:Connect(function(Close)
+		local Target = script.Parent.Parent.Parent.Parent
+		wait()
+		Target:Destroy()
+	
+	end)
+	
+end
+coroutine.wrap(HGOI_fake_script)()
